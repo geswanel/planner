@@ -1,1 +1,19 @@
-Hello world!
+{% for t in tasks %}
+<p>
+  {{t.user_id}}: {{t.title}} {{t.description}} {{t.last_execution}}
+</p>
+{% endfor %}
+
+<form action="{% url 'regulartasks:add' %}" method="post">
+  {% csrf_token %}
+  <input type="text" name="title" placeholder="task title"/>
+  <input type="text" name="description" placeholder="description"/>
+  <input type="datetime" name="last_execution" />
+  <input type="number" name="frequency_val" value="0"/>
+  <select name="frequency_range">
+    {% for choice in RegularTask.FREQUENCY_RANGE_CHOICES %}
+    <option value="{{choice.0}}">{{choice.1}}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">CREATE</button>
+</form>
